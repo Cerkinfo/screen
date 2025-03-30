@@ -25,6 +25,7 @@ load_dotenv()
 MAX_CONTENT_LENGTH = 512 * 1024 * 1024  # 512 MB
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif', 'mp4'}
 ADMIN_PW = os.getenv('ADMIN_PW')
+IP = os.getenv('NEXT_PUBLIC_LOCALIP')
 
 # Create a Flask application instance
 app = Flask(__name__)
@@ -101,13 +102,16 @@ def random_img():
     files = [f for f in directory.iterdir() if f.is_file()]
     files_sorted = sorted(files, key=lambda f: f.stat().st_ctime)
     print(files_sorted)
-    last_images = files_sorted[len(files_sorted)-1]
-    last_images_string = str(last_images).split("\\")[-1]
-    print(last_images_string)
-    # image_files = os.listdir("./db/resources/uploaded_files")
-    # image_files.sort(key=os.path.getmtime)
-    # print(image_files[1:10])
-    return jsonify({'imageName': last_images_string})
+    if len(files_sorted):
+        last_images = files_sorted[len(files_sorted)-1]
+        print(last_images)
+        last_images_string = str(last_images).split("\\")[-1]
+        print(last_images_string)
+        # image_files = os.listdir("./db/resources/uploaded_files")
+        # image_files.sort(key=os.path.getmtime)
+        # print(image_files[1:10])
+        return jsonify({'imageName': last_images_string})
+    return jsonify({'imageName': 'static/default.png'})
 
 @app.route('/home_screen', methods=['GET'])
 def get_home_screen():
@@ -189,14 +193,14 @@ def cli():
         return jsonify({'succeed': False}), 403
 
 
-@app.route('/change_display_api', methods=['GET', 'POST'])
-def change_display_api():
-    if request.method == 'POST':
-        data = request.get_json()
-        if data.get('operation') == 'enfer':
-            os.system(f'firefox --kiosk {os.getenv('IP_ADDRESS_FRONTEND')}/score')
-        if data.get('operation') == 'enfer':
-            os.system(f'firefox --kiosk {os.getenv('IP_ADDRESS_FRONTEND')}/image')
+#@app.route('/change_display_api', methods=['GET', 'POST'])
+#def change_display_api():
+#    if request.method == 'POST':
+#        data = request.get_json()
+#        if data.get('operation') == 'enfer':
+#            os.system(f'firefox --kiosk {os.getenv('IP_ADDRESS_FRONTEND')}/score')
+#        if data.get('operation') == 'enfer':
+#            os.system(f'firefox --kiosk {os.getenv('IP_ADDRESS_FRONTEND')}/image')
 
 
 # Run the application
