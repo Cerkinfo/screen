@@ -2,10 +2,12 @@ import '../css/admin.css'
 import { useEffect } from "react";
 import React, { useState, useRef } from "react";
 
+let ip = process.env.NEXT_PUBLIC_LOCALIP;
+
 function AdminPage() {
 
   async function fetchScores() {
-    let response = await fetch("http://127.0.0.1:5000/api/score");
+    let response = await fetch(`http://${ip}:5000/api/score`);
     let data = await response.json();
 
     for (let id in data) {
@@ -14,11 +16,11 @@ function AdminPage() {
             counter.textContent = data[id];  // Set the counter value to the fetched score
         }
     }
-}
+  }
 
-async function updateScore(cercle, operation) {
+  async function updateScore(cercle, operation) {
   
-    let response = await fetch("http://127.0.0.1:5000/api/score", {
+    let response = await fetch(`http://${ip}:5000/api/score`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ cercle: cercle, operation: operation })
@@ -30,27 +32,26 @@ async function updateScore(cercle, operation) {
     } else {
         alert("Error: " + result.error);
     }
-}
+  }
 
-useEffect(() => {
-  fetchScores()
-  
-}, []);
+  useEffect(() => {
+    fetchScores()
+  }, []);
 
   return (
       <main id="mainAdmin">
         <header id="headerAdmin" >Admin Panel</header>
         <div id="toges">
             <span>POPO</span>
-            <div class="counter" id="toges-counter">Error</div>
-            <button class="updateButtonAdmin" onClick={() => updateScore('toges', 'add')}>+1 toges</button>
-            <button class="updateButtonAdmin" onClick={() => updateScore('toges', 'sub')}>-1 toges</button>
+            <div className="counter" id="toges-counter">Error</div>
+            <button className="updateButtonAdmin" onClick={() => updateScore('toges', 'add')}>+1 toges</button>
+            <button className="updateButtonAdmin" onClick={() => updateScore('toges', 'sub')}>-1 toges</button>
         </div> 
         <div id="non-toges">
             <span>CI</span>
-            <div class="counter" id="non-toges-counter">Error</div>
-            <button class="updateButtonAdmin" onClick={() => updateScore('non-toges', 'add')}>+1 non-toges</button>
-            <button class="updateButtonAdmin" onClick={() => updateScore('non-toges', 'sub')}>-1 non-toges</button>
+            <div className="counter" id="non-toges-counter">Error</div>
+            <button className="updateButtonAdmin" onClick={() => updateScore('non-toges', 'add')}>+1 non-toges</button>
+            <button className="updateButtonAdmin" onClick={() => updateScore('non-toges', 'sub')}>-1 non-toges</button>
         </div> 
       </main>
   );

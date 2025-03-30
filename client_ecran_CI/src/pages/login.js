@@ -1,10 +1,10 @@
 import '../css/login.css'
 import React, { useState, useRef } from "react";
-import { useNavigate  } from 'react-router-dom';
+import { useRouter  } from 'next/navigation';
 
 function Login() {
   const [mdp, setmdp] = useState("");
-  let navigate = useNavigate();
+  let router = useRouter();
   async function handleSubmit(event) {
     event.preventDefault();
     let response = await fetch("http://127.0.0.1:5000/cli", {
@@ -14,7 +14,7 @@ function Login() {
   })
   .then( res =>{
     console.log(res)
-    navigate('/admin')
+    router.push('/admin')
   }  )
   .catch(error =>{
     alert("une erreur est apparut")

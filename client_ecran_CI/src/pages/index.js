@@ -1,9 +1,17 @@
-import logo from './LogoCI.png';
+import { Lacquer } from 'next/font/google'
+import logo from '../../public/LogoCI.png';
 import '../css/App.css';
+import Image from 'next/image';
 import React, { useState, useRef , useEffect} from "react";
 
+
+// If loading a variable font, you don't need to specify the font weight
+const lacquer = Lacquer({ 
+  weight: '400',
+  subsets: ['latin'] 
+})
 const PORT = 5000;
-const API_IP_ADDRESS = "127.0.0.1"
+const API_IP_ADDRESS = process.env.NEXT_PUBLIC_LOCALIP;
 const serverURL = `http://${API_IP_ADDRESS}:${PORT}`;
 function App() {
   const [fileName, setFileName] = useState("");
@@ -98,8 +106,8 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <h1 className="Page-title">Envoie photo sur l'écran du CI zebi 🚀</h1>
-        <img src={logo} className="App-logo" alt="logo CI"  />
+        <h1 className={lacquer.className} className="Page-title">Envoie photo sur l&apos;écran du CI zebi 🚀</h1>
+        <Image src={logo} className="App-logo" alt="logo CI"  />
         <div className='one-line'>
           <input
             type="range"
@@ -141,7 +149,7 @@ function App() {
 
         {imageURL && ( //display the image once selected
           <div> 
-            <img src={imageURL} alt="The img that was selected" style={{ maxWidth: "50%", height: "auto"}}/>
+            <Image src={imageURL} alt="The img that was selected" style={{ maxWidth: "50%", height: "auto"}}/>
           </div>
         )}
 

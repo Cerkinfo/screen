@@ -17,7 +17,7 @@ html, body {
     height: 100vh;  /* Full viewport height */
     width: 100vw;   /* Full viewport width */
     box-sizing: border-box; /* Ensures padding is included in the width/height calculation */
-    background-image: url("../static/img/enfer.gif");
+    background-image: url("../../public/enfer.gif");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;

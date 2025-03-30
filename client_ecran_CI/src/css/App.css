@@ -4,7 +4,8 @@
 }
 
 .App-logo {
-  height: 40vmin;
+  width: 25%;
+  height: 25%;
   pointer-events: none;
 }
 
@@ -59,6 +60,8 @@ body { /*F2Ville*/
 }
 
 .Page-title{
+  font-family: Lacquer;
+  src: url("./font/Lacquer-Regular.ttf");
   color:blueviolet;
   font-size: 3em; /* Adjust the size as needed */
   margin-bottom: 100px; /* Space between the title and the logo */
