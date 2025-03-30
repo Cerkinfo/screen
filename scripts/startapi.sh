@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 FIRST_RUN=true;
 cd "../api" || exit;
+mkdir -p ./static/current_displayed_img;
+mkdir -p ./static/uploaded_files;
 if [ -d "./venv" ]; then
 	if [ -d "./venv/bin" ]; then
 		FIRST_RUN=false;
