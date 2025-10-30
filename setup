@@ -1,0 +1,11 @@
+API: backend port 5000:
+- api, send data in response of requests if conditions are met
+- page for image viewer -> not public faced, only local (on screen) PITA to do
+  in next, + need to be on screen only, KIAII
+
+WEBSITE: frontend port 3000:
+- page for image upload
+- page for login
+- page for admin
+- page cli (?)
+- page for index

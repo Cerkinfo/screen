@@ -1,6 +1,6 @@
 import { Lacquer } from 'next/font/google'
-import logo from '../../public/LogoCI.png';
-import '../css/App.css';
+import logo from '../../../public/LogoCI.png';
+import '../../css/App.css';
 import Image from 'next/image';
 import React, { useState, useRef , useEffect} from "react";
 

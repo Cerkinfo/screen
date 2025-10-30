@@ -35,10 +35,8 @@ app.config['MAX_CONTENT_LENGTH'] = MAX_CONTENT_LENGTH
 
 CORS(app)
 
-scores = {
-    'toges': 0,
-    'non-toges': 0,
-}
+scores = {'teamA': 0, 'teamB': 0}
+names = {'teamA': "teamA_name", 'teamB': "teamB_name"}
 
 
 def is_allowed_file(filename):
@@ -65,6 +63,13 @@ def copy_file_to_displayed_folder(filename):
                 os.remove(os.path.join(app.config['CURRENT_DISPLAYED_IMG_FOLDER'], file))
     except:
         print("Error removing files from current displayed image folder")
+    try:
+        # remove all files in the folder except the last one
+        files = os.listdir(app.config['UPLOAD_FOLDER'])
+        for file in files:
+            os.remove(os.path.join(app.config['UPLOAD_FOLDER'], file))
+    except:
+        print("Error removing files from current displayed image folder")
 
 
 def log_feedback(data):
@@ -73,9 +78,21 @@ def log_feedback(data):
         file.close()
 
 
+def save_names():
+    with open(os.getenv('NAMES_FILE'), 'w') as n:
+        json.dump(names, n)
+
+
 def save_scores():
     with open(os.getenv('SCORES_FILE'), 'w') as f:
         json.dump(scores, f)
+
+
+def load_names():
+    global names
+    if os.path.exists(os.getenv('NAMES_FILE')):
+        with open(os.getenv('NAMES_FILE'), 'r') as n:
+            names = json.load(n)
 
 
 def load_scores():
@@ -98,7 +115,8 @@ def hello_world():
 @app.route('/random_img', methods=['GET'])
 def random_img():
     print("test")
-    directory = Path("static/uploaded_files")
+    #directory = Path("static/uploaded_files")
+    directory = Path(app.config['CURRENT_DISPLAYED_IMG_FOLDER'])
     files = [f for f in directory.iterdir() if f.is_file()]
     files_sorted = sorted(files, key=lambda f: f.stat().st_ctime)
     print(files_sorted)
@@ -113,7 +131,7 @@ def random_img():
         return jsonify({'imageName': last_images_string})
     return jsonify({'imageName': 'static/default.png'})
 
-@app.route('/home_screen', methods=['GET'])
+@app.route('/pic', methods=['GET'])
 def get_home_screen():
     # get filename in the current displayed image folder
     try:
@@ -122,7 +140,7 @@ def get_home_screen():
         raise FileNotFoundError
 
     try:
-        return render_template('display.html')
+        return render_template('display.html', ip=IP)
     except:
         raise Exception
 
@@ -166,8 +184,23 @@ def post_feedback():
     })
 
 
+@app.route('/api/names', methods=['GET', 'POST'])
+def api_names():
+    if request.method == 'POST':
+        data = request.get_json()
+        team = data.get('team')
+        cercle = data.get('cercle')
+
+        if team == 'teamA' or team == 'teamB':
+            names[team] = cercle
+        save_names()
+        return jsonify({'succeed': True, 'names': names})
+    else:
+        return jsonify(names)
+
+
 @app.route('/api/score', methods=['GET', 'POST'])
-def api():
+def api_score():
     if request.method == 'POST':
         data = request.get_json()
         operation = data.get('operation')
@@ -206,5 +239,7 @@ def cli():
 # Run the application
 if __name__ == '__main__':
     load_scores()
+    load_names()
     app.run(host='0.0.0.0', port=5000, debug=True)
+    save_names()
     save_scores()

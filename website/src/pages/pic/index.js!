@@ -1,0 +1,18 @@
+import Image from 'next/image';
+import React, { useState, useRef , useEffect} from "react";
+
+const ip = process.env.NEXT_PUBLIC_LOCALIP;
+function App() {
+
+    let srcString
+
+     fetch(`http://${ip}:5000/random_img`)
+    .then(response => response.json())
+    .then(data => { srcString = `../../../../api/${String(data["imageName"])}` })
+    .catch(error => { console.error('Error:', error) });
+	return (
+		<Image src={srcString} alt="Sex & Chopes!"  />
+	);
+ }
+
+export default App;

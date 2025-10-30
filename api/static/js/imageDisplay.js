@@ -1,5 +1,6 @@
  // Constant image path without specifying the extension
  const folderPath = 'static/current_displayed_img/'; // Path to the folder containing the image
+ const ip = document.currentScript.getAttribute('ipstr');
 
  // List of common image file extensions
  const extensions = ['png', 'jpg', 'jpeg', 'gif'];
@@ -13,7 +14,7 @@
 
     let srcString
 
-     fetch('http://127.0.0.1:5000/random_img')
+     fetch(`http://${ip}:5000/random_img`)
     .then(response => response.json())
     .then(data => {
         srcString = `../${String(data["imageName"])}`
