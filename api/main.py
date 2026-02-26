@@ -216,6 +216,20 @@ def api_score():
         return jsonify(scores)
 
 
+@app.route('/api/team', methods=['POST'])
+def api_team():
+    data = request.get_json()
+    operation = data.get('operation')
+    team_name = data.get('team_name')
+
+    if operation == 'add':
+        scores[team_name] = 0
+    elif operation == 'remove':
+        score.remove(team_name)
+    save_scores()
+    return jsonify({'succeed': True, 'scores': scores})
+
+
 @app.route('/cli', methods=['POST'])
 def cli():
     pw = request.get_json()["pw"]
