@@ -3,11 +3,12 @@ import { useEffect } from "react";
 import React, { useState, useRef } from "react";
 
 let ip = process.env.NEXT_PUBLIC_LOCALIP;
+let port = process.env.NEXT_PUBLIC_LOCALPORT;
 
 function AdminPage() {
 
   async function fetchNames() {
-	let response = await fetch(`http://${ip}:5000/api/names`);
+	let response = await fetch(`http://${ip}:${port}/api/names`);
 	let data = await response.json();
 
 	for (let id in data) {

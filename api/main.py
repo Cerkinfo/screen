@@ -216,18 +216,21 @@ def api_score():
         return jsonify(scores)
 
 
-@app.route('/api/team', methods=['POST'])
+@app.route('/api/teams', methods=['GET','POST'])
 def api_team():
-    data = request.get_json()
-    operation = data.get('operation')
-    team_name = data.get('team_name')
+    if request.method == 'POST':
+        data = request.get_json()
+        operation = data.get('operation')
+        team_name = data.get('team_name')
 
-    if operation == 'add':
-        scores[team_name] = 0
-    elif operation == 'remove':
-        score.remove(team_name)
-    save_scores()
-    return jsonify({'succeed': True, 'scores': scores})
+        if operation == 'add':
+            scores[team_name] = 0
+        elif operation == 'remove':
+            score.remove(team_name)
+        save_scores()
+        return jsonify({'succeed': True, 'scores': scores})
+    else:
+        return jsonify(scores)
 
 
 @app.route('/cli', methods=['POST'])

@@ -2,52 +2,55 @@ import '../../css/display.css'
 import React, { useState, useRef } from "react";
 import { useEffect } from "react";
 
-const ip = process.env.NEXT_PUBLIC_LOCALIP;
+const ip = process.env.NEXT_PUBLIC_SERVERIP;
+const port =  process.env.NEXT_PUBLIC_SERVERPORT;
 
 function DisplayScore() {
-  async function fetchNames() {
-	let response = await fetch(`http://${ip}:5000/api/names`);
-	let data = await response.json()
 
-	for (let id in data) {
-		let name = document.getElementById(id + '-name');
-		if (name) {
-			name.textContent = data[id];  // Set the counter value to the fetched score
-		}
-	}
-  }
-  async function fetchScores() {
-    let response = await fetch(`http://${ip}:5000/api/score`);
-    let data = await response.json();
+  async function fetchTeams() {
+    const response = await fetch(`http://${ip}:${port}/api/teams`);
+    const data = await response.json()
+    let topTeamDisplay = ""
+    let lastTeamDisplay = ""
+    let teamArray = Object.keys(data).map((key) => [key, data[key]]);
+    console.log(teamArray)
+    teamArray.sort((a,b)=>b[1]-a[1] )
+    for(const [name, score] of teamArray.slice(0,3)){
 
-    for (let id in data) {
-        let counter = document.getElementById(id + '-counter');
-        if (counter) {
-            counter.textContent = data[id];  // Set the counter value to the fetched score
-        }
+
+      topTeamDisplay += `<div class="teamCard" id="${name}">`
+      topTeamDisplay += `<div class="counter" id="${name}">${score}</div>`
+      topTeamDisplay += `<div class="teamName">${name}</div></div>`
+        
     }
+
+    for(const [name, score] of teamArray.slice(3,teamArray.length)){
+
+      lastTeamDisplay += `<div class="teamCard" id="${name}">`
+      lastTeamDisplay += `<div class="counter" id="${name}">${score}</div>`
+      lastTeamDisplay += `<div class="teamName" id="${name}">${name}</div></div>`    
+    }
+
+    document.getElementById("top").innerHTML =topTeamDisplay
+    document.getElementById("last").innerHTML =lastTeamDisplay
   }
+
 
   useEffect(() => {
-    fetchScores(); // Initial fetch on page load
-	fetchNames(); // Initial fetch on page load
-	setInterval(fetchNames, 2000); // Poll every 5 seconds
-    setInterval(fetchScores, 2000); // Poll every 5 seconds
+    fetchTeams();
+	  //setInterval(fetchTeams, 2000); // Poll every 2 seconds
   }, []);
 
   return (
-    <div>
       <main id="mainScore">
-          <div id="teamA">
-              <span><div className="name" id="teamA-name">Error</div></span>
-              <div className="counter" id="teamA-counter">Error</div>
-          </div> 
-          <div id="teamB">
-	  		  <span><div className="name" id="teamB-name">Error</div></span>
-              <div className="counter" id="teamB-counter">Error</div>
-          </div> 
+        <div id="top">
+
+        </div>
+        <div id="last">
+          
+        </div>
+          
       </main>
-    </div>
   );
 }
 

@@ -2,59 +2,80 @@
     font-family: Fjalla One;
     src: url("./font/FjallaOne-Regular.ttf");
 }
+
+#__next, mainscore, main {
+    height: 100%;
+}
+
 html, body {
     height: 100%; /* Make sure the body and html take up the full viewport height */
     margin: 0; /* Remove default margin */
 }
 
-#mainScore {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr); 
-    /* grid-template-rows: repeat(2, 1fr); */
-    gap: 100px;
-    padding: 150px;
-
-    height: 100vh;  /* Full viewport height */
-    width: 100vw;   /* Full viewport width */
-    box-sizing: border-box; /* Ensures padding is included in the width/height calculation */
-    background-image: url("../../public/enfer.gif");
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+#top{
+    height: 55%;
+    display: flex;
+    justify-content: center;
 }
 
-#mainScore > div {
+#top .teamCard {
+    width: 25%;
+}
+
+div.teamCard .teamName {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    border-radius: 8px;
+    justify-content: center;
+    width: 100%;
+    text-align: center;
+    font-size: 25px;
 }
 
-#mainScore > div > span {
-    display: block;
-    font-family: Fjalla One;
-    font-size: 5em;
-    margin-bottom: 10px;
-}
-#mainScore > div > .counter {
-    font-family: Fjalla One;
-    font-size: 20em;
-}
-
-#teamA {
-    background-color: #f1f1f1;
-    border: solid 2px #1a1a1a;
-}
-
-#teamB {
-    background-color: #f3e5f5;
+#top .teamCard {
+    background-color: #DAB1DA;
     border: solid 2px #5217A2;
+    border-radius: 10px;
+    margin: 10px;
 }
 
-.name {
+#top .teamName {
+    text-align: center;
+    height: 20%;
 }
 
-.counter {
-    font-size: 1.2em;
-    margin-bottom: 10px;
+#top .counter {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 80%;
+    font-size: 170px;
+    text-align: center;
+}
+
+
+#last{
+    height: 30%;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+#last .counter {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 80%;
+    font-size: 100px;
+    text-align: center;
+}
+
+#last .teamName {
+    display: flex;
+}
+
+#last .teamCard {
+    border: 2 solid black;
+    background-color: #D3D3D3;
+    border-radius: 10px;
+    width:10%;
 }
