@@ -11,6 +11,7 @@ body {
 }
 
 #headerAdmin {
+    display: block;
     position: fixed;
     top: 0;
     left: 0;
@@ -25,12 +26,12 @@ body {
 }
 
 #mainAdmin {
-    display: grid;
+    display: block;
     /* grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); */
-    grid-template-columns: repeat(auto-fit, 1fr);
+    /*grid-template-columns: repeat(auto-fit, 1fr);*/
     gap: 20px;
     padding: 20px;
-    margin-top: 80px;
+    margin-top: 40px;
 }
 
 #mainAdmin > div {
@@ -40,14 +41,14 @@ body {
     justify-content: space-between;
     padding: 15px;
     border-radius: 8px;
-    transition: 0.3s;
 }
 
-#mainAdmin > div > span {
+div.teamName {
     display: block;
     font-family: Fjalla One;
-    font-size: 1.5em;
-    margin-bottom: 10px;
+    font-size: 30px;
+    width: 100%;
+    text-align: center;
 }
 
 .updateButtonAdmin {
@@ -65,17 +66,21 @@ body {
     background-color: #410E7A;
 }
 
-#teamA {
-    background-color: #f1f1f1;
-    border: solid 2px #1a1a1a;
-}
-
-#teamB {
+.adminTeamCard {
     background-color: #f3e5f5;
     border: solid 2px #5217A2;
 }
 
 .counter {
-    font-size: 1.2em;
-    margin-bottom: 10px;
+    font-size: 40px;
+    width: 100%;
+    text-align: center;
+}
+
+
+div#teamMenu div.adminTeamCard{
+    border: 2px solid black;
+    border-radius: 10px;
+    width:90%;
+    margin:15px;
 }

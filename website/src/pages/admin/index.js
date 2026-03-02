@@ -1,108 +1,69 @@
 import '../../css/admin.css'
-import { useEffect } from "react";
-import React, { useState, useRef } from "react";
+import { useEffect, useState } from "react"; 
 
-let ip = process.env.NEXT_PUBLIC_LOCALIP;
-let port = process.env.NEXT_PUBLIC_LOCALPORT;
+const ip = process.env.NEXT_PUBLIC_SERVERIP;
+const port = process.env.NEXT_PUBLIC_SERVERPORT;
 
 function AdminPage() {
 
-  async function fetchNames() {
-	let response = await fetch(`http://${ip}:${port}/api/names`);
-	let data = await response.json();
+    const [teams, setTeams] = useState({});
 
-	for (let id in data) {
-		let name = document.getElementById(id + '-name');
-		if (name) {
-			name.textContent = data[id];  // Set the counter value to the fetched score
-		}
-	}
-  }
+    async function addTeam() {
 
-  async function fetchScores() {
-    let response = await fetch(`http://${ip}:5000/api/score`);
-    let data = await response.json();
+        const response = await fetch(`http://${ip}:${port}/api/teams`);
 
-    for (let id in data) {
-        let counter = document.getElementById(id + '-counter');
-        if (counter) {
-            counter.textContent = data[id];  // Set the counter value to the fetched score
+        newTeamName = prompt("Quelle est le nom de la nouvelle équipe ?")
+    }
+
+    async function fetchTeams() {
+        const response = await fetch(`http://${ip}:${port}/api/teams`);
+        const data = await response.json();
+        setTeams(data);
+    }
+
+    async function updateScore(team, action) {
+        console.log(team, action);
+        let response = await fetch(`http://${ip}:${port}/api/score`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ cercle: team, operation: action })
+        });
+
+        let result = await response.json();
+        if (result.succeed) {
+            fetchTeams(); 
+        } else {
+            alert("Error: " + result.error);
         }
     }
-  }
 
-  async function handleSubmit(e) {
-    // Prevent the browser from reloading the page
-    e.preventDefault();
+    useEffect(() => {
+        fetchTeams();
+        setInterval(fetchTeams, 2000); // Poll every 2 seconds
+    }, []);
 
-    // Read the form data
-    const form = e.target;
-    const formData = new FormData(form);
-
-	const formJson = JSON.stringify(Object.fromEntries(formData.entries()));
-    fetch(`http://${ip}:5000/api/names`, {
-		method: form.method,
-		headers: { "Content-Type": "application/json" },
-		body: formJson
-	});
-	  
-    console.log(formJson);
-  }
-
-  async function updateScore(cercle, operation) {
-  
-    let response = await fetch(`http://${ip}:5000/api/score`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ cercle: cercle, operation: operation })
-    });
-    
-    let result = await response.json();
-    if (result.succeed) {
-        fetchScores();
-    } else {
-        alert("Error: " + result.error);
-    }
-  }
-
-  useEffect(() => {
-    fetchScores()
-	fetchNames()
-	setInterval(fetchNames, 2000); // Poll every 5 seconds
-	setInterval(fetchScores, 2000); // Poll every 5 seconds
-  }, []);
-
-  return (
-      <main id="mainAdmin">
-        <header id="headerAdmin" >Admin Panel</header>
-        <div id="teamA">
-	  		<span><div className="name" id="teamA-name">Error</div></span>
-	  		<div className="counter" id="teamA-counter">Error</div>
-			<span>
-            <button className="updateButtonAdmin" onClick={() => updateScore('teamA', 'add')}>+1</button>
-            <button className="updateButtonAdmin" onClick={() => updateScore('teamA', 'sub')}>-1</button>
-	  		</span>
-	  		<form method="post" onSubmit={handleSubmit}>
-	  			<input name="cercle" defaultValue="teamA_name" />
-				<input type="hidden" name="team" defaultValue="teamA" />
-	  			<button className="updateButtonAdmin" type="submit">update name</button>
-	  		</form>
-        </div> 
-        <div id="teamB">
-            <span><div className="name" id="teamB-name">Error</div></span>
-	  		<div className="counter" id="teamB-counter">Error</div>
-	  		<span>
-            <button className="updateButtonAdmin" onClick={() => updateScore('teamB', 'add')}>+1</button>
-            <button className="updateButtonAdmin" onClick={() => updateScore('teamB', 'sub')}>-1</button>
-	  		</span>
-	  		<form method="post" onSubmit={handleSubmit}>
-				<input name="cercle" defaultValue="teamB_name" />
-				<input type="hidden" name="team" defaultValue="teamB" />
-				<button className="updateButtonAdmin" type="submit">update name</button>
-			</form>
-        </div> 
-      </main>
-  );
+    return (
+        <main id="mainAdmin">
+            <header id="headerAdmin">Admin Panel</header>
+            <div id="teamMenu">
+              <div><button className="updateButtonAdmin" onClick={() => addTeam()}>
+                            ajouter une équipe
+                        </button></div>
+                {Object.entries(teams).map(([name, score]) => (
+                    <div className="adminTeamCard" key={name} id={name}>
+                        <div className="teamName">{name}</div>
+                        <div className="counter">{score}</div>
+                        <button className="updateButtonAdmin" onClick={() => updateScore(name, 'add')}>
+                            +1
+                        </button>
+                        <button className="updateButtonAdmin" onClick={() => updateScore(name, 'sub')}>
+                            -1
+                        </button>
+                    </div>
+                ))}
+            </div>
+        </main>
+    );
 }
 
 export default AdminPage;

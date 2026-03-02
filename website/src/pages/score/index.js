@@ -13,7 +13,6 @@ function DisplayScore() {
     let topTeamDisplay = ""
     let lastTeamDisplay = ""
     let teamArray = Object.keys(data).map((key) => [key, data[key]]);
-    console.log(teamArray)
     teamArray.sort((a,b)=>b[1]-a[1] )
     for(const [name, score] of teamArray.slice(0,3)){
 
@@ -38,7 +37,7 @@ function DisplayScore() {
 
   useEffect(() => {
     fetchTeams();
-	  //setInterval(fetchTeams, 2000); // Poll every 2 seconds
+	  setInterval(fetchTeams, 2000);
   }, []);
 
   return (
