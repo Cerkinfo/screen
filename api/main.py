@@ -35,8 +35,8 @@ app.config['MAX_CONTENT_LENGTH'] = MAX_CONTENT_LENGTH
 
 CORS(app)
 
-scores = {'teamA': 0, 'teamB': 0}
-names = {'teamA': "teamA_name", 'teamB': "teamB_name"}
+scores = {}
+names = {}
 
 
 def is_allowed_file(filename):
@@ -183,55 +183,41 @@ def post_feedback():
         'status': 'success'
     })
 
-
-@app.route('/api/names', methods=['GET', 'POST'])
-def api_names():
-    if request.method == 'POST':
-        data = request.get_json()
-        team = data.get('team')
-        cercle = data.get('cercle')
-
-        if team == 'teamA' or team == 'teamB':
-            names[team] = cercle
-        save_names()
-        return jsonify({'succeed': True, 'names': names})
-    else:
-        return jsonify(names)
-
-
 @app.route('/api/score', methods=['GET', 'POST'])
 def api_score():
     if request.method == 'POST':
         data = request.get_json()
         operation = data.get('operation')
-        cercle = data.get('cercle')
-
+        team_name = data.get('teamName')
+        print(operation)
+        print(team_name)
         if operation == 'add':
-            scores[cercle] += 1
-        elif operation == 'sub' and scores[cercle] > 0:
-            scores[cercle] -= 1
+            scores[team_name] += 1
+        elif operation == 'sub' and scores[team_name] > 0:
+            scores[team_name] -= 1
         save_scores()
         return jsonify({'succeed': True, 'scores': scores})
     else:
         return jsonify(scores)
 
 
-@app.route('/api/teams', methods=['GET','POST'])
+@app.route('/api/teams', methods=['GET'])
 def api_team():
-    if request.method == 'POST':
-        data = request.get_json()
-        operation = data.get('operation')
-        team_name = data.get('team_name')
+    return jsonify(scores)
 
-        if operation == 'add':
-            scores[team_name] = 0
-        elif operation == 'remove':
-            score.remove(team_name)
+@app.route('/api/teams', methods=['PATCH'])
+def add__new_team():
+    data = request.get_json()
+    operation = data.get('operation')
+    team_name = data.get('teamName')
+    print(team_name,operation)
+    if operation == 'add':
+        scores[team_name] = 0
         save_scores()
-        return jsonify({'succeed': True, 'scores': scores})
-    else:
-        return jsonify(scores)
-
+    elif operation == 'remove':
+        del scores[team_name]
+        save_scores()
+    return jsonify({'succeed': True, 'scores': scores})
 
 @app.route('/cli', methods=['POST'])
 def cli():
