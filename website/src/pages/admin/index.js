@@ -74,22 +74,26 @@ function AdminPage() {
         <main id="mainAdmin">
             <header id="headerAdmin">Admin Panel</header>
             <div id="teamMenu">
-              <div><button className="updateButtonAdmin" onClick={() => addTeam()} >
+              <div><button class="adminMenuButtons"  onClick={() => addTeam()} >
                             ajouter une équipe
                         </button></div>
                 {Object.entries(teams).map(([teamName, score]) => (
-                    <div className="adminTeamCard" key={teamName} id={name}>
-                        <button className="updateButtonAdmin" onClick={() => removeTeam(teamName)}>
-                            supprimer l'équipe
-                        </button>
-                        <div className="teamName">{teamName}</div>
-                        <div className="counter">{score}</div>
-                        <button className="updateButtonAdmin" onClick={() => updateScore(teamName, 'add')}>
-                            +1
-                        </button>
-                        <button className="updateButtonAdmin" onClick={() => updateScore(teamName, 'sub')}>
-                            -1
-                        </button>
+                    <div class="adminTeamCard" key={teamName} id={name}>
+                        <div id="deleteButtonWrapper">
+                            <button class="adminMenuButtons" id="deleteButton" onClick={() => removeTeam(teamName)}>
+                                supprimer l'équipe
+                            </button>
+                        </div>
+                        <div class="teamName">{teamName}</div>
+                        <div class="counter">{score}</div>
+                        <div class="scoreButtonWrapper" >
+                            <button class="adminMenuButtons" onClick={() => updateScore(teamName, 'add')}>
+                                +1
+                            </button>
+                            <button class="adminMenuButtons" onClick={() => updateScore(teamName, 'sub')}>
+                                -1
+                            </button>
+                        </div>
                     </div>
                 ))}
             </div>

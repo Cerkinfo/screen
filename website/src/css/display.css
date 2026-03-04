@@ -1,3 +1,36 @@
+/* @media only screen and ( max-width:600 ) {
+    #top{
+        height: auto !important;
+        display: block !important;
+        justify-content: center !important;
+    }
+
+    #last{
+        height: 30%;
+        display: block ;
+        justify-content: center;
+        gap: 20px;
+    }
+
+    .teamCard {
+        width: 90% !important;
+        
+    }
+
+    #top .counter {
+        font-size: 40px !important;
+    }
+
+    .topTeamName {
+        font-size: 35px !important;
+    }
+
+    #top .teamCard {
+        margin: 15px auto !important;
+    }
+        
+} */
+
 @font-face{
     font-family: Fjalla One;
     src: url("./font/FjallaOne-Regular.ttf");
@@ -7,16 +40,18 @@
     height: 100%;
 }
 
-html, body {
-    height: 100%; /* Make sure the body and html take up the full viewport height */
+body {
+    height: 100vh; /* Make sure the body and html take up the full viewport height */
     margin: 0; /* Remove default margin */
     background-image: url("../../public/enfer.gif");
     background-repeat: no-repeat;
     background-size: cover;
+    overflow: hidden;
 }
 
 #top{
     height: 55%;
+    margin: 25px;
     display: flex;
     justify-content: center;
 }
@@ -25,7 +60,16 @@ html, body {
     width: 25%;
 }
 
-div.teamCard .teamName {
+.topTeamName {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    text-align: center;
+    font-size: 50px;
+}
+
+.bottomTeamName {
     display: flex;
     flex-direction: column;
     justify-content: center;

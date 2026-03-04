@@ -1,6 +1,8 @@
 import '../../css/display.css'
 import React, { useState, useRef } from "react";
 import { useEffect } from "react";
+import Image from 'next/image';
+import logo from '../../../public/sniper.gif';
 
 const ip = process.env.NEXT_PUBLIC_SERVERIP;
 const port =  process.env.NEXT_PUBLIC_SERVERPORT;
@@ -19,7 +21,7 @@ function DisplayScore() {
 
       topTeamDisplay += `<div class="teamCard" id="${name}">`
       topTeamDisplay += `<div class="counter" id="${name}">${score}</div>`
-      topTeamDisplay += `<div class="teamName">${name}</div></div>`
+      topTeamDisplay += `<div class="topTeamName">${name}</div></div>`
         
     }
 
@@ -27,7 +29,7 @@ function DisplayScore() {
 
       lastTeamDisplay += `<div class="teamCard" id="${name}">`
       lastTeamDisplay += `<div class="counter" id="${name}">${score}</div>`
-      lastTeamDisplay += `<div class="teamName" id="${name}">${name}</div></div>`    
+      lastTeamDisplay += `<div class="bottomTeamName" id="${name}">${name}</div></div>`    
     }
 
     document.getElementById("top").innerHTML =topTeamDisplay
@@ -37,7 +39,7 @@ function DisplayScore() {
 
   useEffect(() => {
     fetchTeams();
-	  setInterval(fetchTeams, 2000);
+	  setInterval(fetchTeams, 200000);
   }, []);
 
   return (
@@ -48,7 +50,7 @@ function DisplayScore() {
         <div id="last">
           
         </div>
-          
+        {/* <Image src={logo} className="App-logo" alt="logo CI"  /> */}
       </main>
   );
 }

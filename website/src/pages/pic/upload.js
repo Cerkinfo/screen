@@ -106,7 +106,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <h1 className={lacquer.className} className="Page-title">Envoie photo sur l&apos;écran du CI zebi 🚀</h1>
+        <h1 className={lacquer.className} class="Page-title">Envoie photo sur l&apos;écran du CI zebi 🚀</h1>
         <Image src={logo} className="App-logo" alt="logo CI"  />
         <div className='one-line'>
           <input
