@@ -39,7 +39,7 @@ function DisplayScore() {
 
   useEffect(() => {
     fetchTeams();
-	  setInterval(fetchTeams, 200000);
+	  setInterval(fetchTeams, 2000);
   }, []);
 
   return (
