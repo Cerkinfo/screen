@@ -210,7 +210,7 @@ def add__new_team():
     data = request.get_json()
     operation = data.get('operation')
     team_name = data.get('teamName')
-    print(team_name,operation)
+    
     if operation == 'add':
         scores[team_name] = 0
         save_scores()

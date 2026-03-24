@@ -19,11 +19,7 @@ function AdminPage() {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ teamName: newTeamName,operation : "add"})
         });
-        if (response.status == 200){
-            alert(`l'équipe ${newTeamName} a été ajouté avec succès !`)
-        }else{
-            alert(`un problème est survenu !`)
-        }
+       
         fetchTeams(); 
 
     }
@@ -35,11 +31,7 @@ function AdminPage() {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ teamName: teamRemoved,operation : "remove"})
         });
-        if (response.status == 200){
-            alert(`l'équipe ${teamRemoved} a été supprimé avec succès !`)
-        }else{
-            alert(`un problème est survenu !`)
-        }
+      
         fetchTeams(); 
 
     }
@@ -58,11 +50,7 @@ function AdminPage() {
         });
 
         let result = await response.json();
-        if (result.succeed) {
-            fetchTeams(); 
-        } else {
-            alert("Error: " + result.error);
-        }
+        fetchTeams(); 
     }
 
     useEffect(() => {

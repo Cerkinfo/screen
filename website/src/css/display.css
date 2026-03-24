@@ -41,23 +41,23 @@
 }
 
 body {
-    height: 100vh; /* Make sure the body and html take up the full viewport height */
-    margin: 0; /* Remove default margin */
-    background-image: url("../../public/enfer.gif");
-    background-repeat: no-repeat;
-    background-size: cover;
+    height: 100vh; 
+    margin: 0; 
+    background-image: url("../../public/athvsbxl.jpg");
+    background-repeat: repeat;
+    background-size: 100% 100vh;
     overflow: hidden;
 }
 
 #top{
-    height: 55%;
-    margin: 25px;
+    height: 60%;
+    margin: 100px;
     display: flex;
     justify-content: center;
 }
 
 #top .teamCard {
-    width: 25%;
+    width: 30%;
 }
 
 .topTeamName {
@@ -95,7 +95,7 @@ body {
     flex-direction: column;
     justify-content: center;
     height: 80%;
-    font-size: 170px;
+    font-size: 140px;
     text-align: center;
 }
 

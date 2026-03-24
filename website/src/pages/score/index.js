@@ -15,25 +15,32 @@ function DisplayScore() {
     let topTeamDisplay = ""
     let lastTeamDisplay = ""
     let teamArray = Object.keys(data).map((key) => [key, data[key]]);
+    
     teamArray.sort((a,b)=>b[1]-a[1] )
+    topTeamDisplay += `<div id="top">`
     for(const [name, score] of teamArray.slice(0,3)){
-
 
       topTeamDisplay += `<div class="teamCard" id="${name}">`
       topTeamDisplay += `<div class="counter" id="${name}">${score}</div>`
       topTeamDisplay += `<div class="topTeamName">${name}</div></div>`
         
     }
+    topTeamDisplay += `</div>`
+    if (teamArray.length > 3){
+      
+      topTeamDisplay += `<div id="last">`
+      for(const [name, score] of teamArray.slice(3,teamArray.length)){
 
-    for(const [name, score] of teamArray.slice(3,teamArray.length)){
+        topTeamDisplay += `<div class="teamCard" id="${name}">`
+        topTeamDisplay += `<div class="counter" id="${name}">${score}</div>`
+        topTeamDisplay += `<div class="bottomTeamName" id="${name}">${name}</div></div>`    
+      }
+      topTeamDisplay += `</div>`
+      
 
-      lastTeamDisplay += `<div class="teamCard" id="${name}">`
-      lastTeamDisplay += `<div class="counter" id="${name}">${score}</div>`
-      lastTeamDisplay += `<div class="bottomTeamName" id="${name}">${name}</div></div>`    
     }
-
-    document.getElementById("top").innerHTML =topTeamDisplay
-    document.getElementById("last").innerHTML =lastTeamDisplay
+    
+    document.getElementById("mainScore").innerHTML = topTeamDisplay
   }
 
 
@@ -44,12 +51,7 @@ function DisplayScore() {
 
   return (
       <main id="mainScore">
-        <div id="top">
-
-        </div>
-        <div id="last">
-          
-        </div>
+        
         {/* <Image src={logo} className="App-logo" alt="logo CI"  /> */}
       </main>
   );
